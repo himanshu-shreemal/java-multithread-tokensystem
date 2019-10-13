@@ -33,7 +33,8 @@ public class AssignTokenToUser {
 	public synchronized int assignToken() {
 		int token = 0;
 		try {
-			token = tokenNumber.getAndIncrement();
+			tokenNumber.getAndIncrement();
+			token = tokenNumber.get();
 			TaskHolder task = new TaskHolder(token);
 			
 			// add the token in the queue
@@ -51,7 +52,7 @@ public class AssignTokenToUser {
 			tokenNumber = new AtomicInteger(lastTask.getTokenNumber());
 			assignToken();
 		}
-		System.out.println(tokenNumber.get());
+		System.out.println(token);
 		return token;
 	}
 
@@ -59,31 +60,31 @@ public class AssignTokenToUser {
 	 * This method will take the token from Queue and handover to Other thread to
 	 * server
 	 */
-	private void getTheTokenAndServer() {
-		ExecutorService serviceExe = Executors.newFixedThreadPool(5);
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		while (!blockingQueue.isEmpty()) {
-			serviceExe.execute(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						TaskHolder taskFromQueue = blockingQueue.take();
-						System.out.println(taskFromQueue.getI());
-						System.out.println("Task Taken by Thread " + Thread.currentThread().getName() + " ->"
-								+ taskFromQueue.getI() + " " + new java.sql.Time(System.currentTimeMillis()));
-//						Thread.sleep(taskFromQueue.getCompletesInSeconds());
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-	}
+//	private void getTheTokenAndServer() {
+//		ExecutorService serviceExe = Executors.newFixedThreadPool(5);
+//		try {
+//			Thread.sleep(5000);
+//		} catch (InterruptedException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		while (!blockingQueue.isEmpty()) {
+//			serviceExe.execute(new Runnable() {
+//				@Override
+//				public void run() {
+//					try {
+//						TaskHolder taskFromQueue = blockingQueue.take();
+//						System.out.println(taskFromQueue.getI());
+//						System.out.println("Task Taken by Thread " + Thread.currentThread().getName() + " ->"
+//								+ taskFromQueue.getI() + " " + new java.sql.Time(System.currentTimeMillis()));
+////						Thread.sleep(taskFromQueue.getCompletesInSeconds());
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//			});
+//		}
+//	}
 
 }
