@@ -6,7 +6,6 @@ function onClickServe(){
 		service3();
 		service4();
 		service1();
-		service5();
 		service3();
 		service2();
 		service2();
@@ -14,27 +13,27 @@ function onClickServe(){
 }
 
 serverTokenAPICall1 = () => {
-	let data = fetch("http://localhost:19090/test1") // Call the fetch function passing the url of the API as a parameter
+	let data = fetch("http://localhost:19090/getTokenToServer?timeTakesToServer=2") // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
 serverTokenAPICall2 = () => {
-	let data = fetch("http://localhost:19090/test1") // Call the fetch function passing the url of the API as a parameter
+	let data = fetch("http://localhost:19090/getTokenToServer?timeTakesToServer=3") // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
 serverTokenAPICall3 = () => {
-	let data = fetch("http://localhost:19090/test1") // Call the fetch function passing the url of the API as a parameter
+	let data = fetch("http://localhost:19090/getTokenToServer?timeTakesToServer=3") // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
 serverTokenAPICall4 = () => {
-	let data = fetch("http://localhost:19090/test1") // Call the fetch function passing the url of the API as a parameter
+	let data = fetch("http://localhost:19090/getTokenToServer?timeTakesToServer=1") // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
 serverTokenAPICall5 = () => {
-	let data = fetch("http://localhost:19090/test1") // Call the fetch function passing the url of the API as a parameter
+	let data = fetch("http://localhost:19090/getTokenToServer?timeTakesToServer=0") // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }

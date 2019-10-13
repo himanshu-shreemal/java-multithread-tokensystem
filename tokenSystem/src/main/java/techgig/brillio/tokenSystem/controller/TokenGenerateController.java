@@ -19,7 +19,7 @@ public class TokenGenerateController {
 	}
 
 	@GetMapping(path = "/getTokenToServer")
-	public int getTokenToServer(@RequestParam(defaultValue = "5") int timeTakesToServer) {
+	public int getTokenToServer(@RequestParam(defaultValue = "3") int timeTakesToServer) {
 		return assignToken.getTokenToServer(timeTakesToServer);
 	}
 }
