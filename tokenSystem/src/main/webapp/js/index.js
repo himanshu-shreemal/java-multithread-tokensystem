@@ -1,6 +1,6 @@
 function onClick(){
 	var i;
-	for (i = 0; i < 10; i++) {
+	for (i = 0; i < 5; i++) {
 		counter1();
 		counter2();
 		counter3();

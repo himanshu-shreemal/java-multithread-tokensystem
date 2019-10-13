@@ -1,10 +1,7 @@
 package techgig.brillio.tokenSystem.service;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -20,10 +17,11 @@ public class AssignTokenToUser {
 	 * Size of the queue depends on the requirement like how much time counter take
 	 * to serve the token and at what frequency we get the request for a new token
 	 */
-	static private BlockingQueue<TaskHolder> blockingQueue = new ArrayBlockingQueue<>(3);
+	Queue<TaskHolder> queue = new LinkedList<TaskHolder>();
+
 	final ReentrantLock lock = new ReentrantLock(true);
-	private final Condition notEmpty = lock.newCondition();
 	private final Condition notFull = lock.newCondition();
+
 	/*
 	 * This value can be initialized from data base but for this practical we will
 	 * store the value in-memory and in case of restart it starts from 0
@@ -42,11 +40,8 @@ public class AssignTokenToUser {
 			token = tokenNumber.get();
 			TaskHolder task = new TaskHolder(token);
 
-			if(blockingQueue.size() == 3) {
-				notEmpty.await();
-			}
 			// add the token in the queue
-			blockingQueue.put(task);
+			queue.add(task);
 			notFull.signal();
 
 			// uncomment the below line to see the generated values from java multithreads
@@ -54,19 +49,9 @@ public class AssignTokenToUser {
 
 			// Will also store the token with other details in database to in case of
 			// failure we will generate the token from previous values
-			System.out.println(token);
-			return token;
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			// get the copy of last value from Queue
-			TaskHolder lastTask = blockingQueue.peek();
-			tokenNumber = new AtomicInteger(lastTask.getTokenNumber());
-			assignToken();
 			return token;
 		} finally {
-			while (lock.getHoldCount() >0) {
-				lock.unlock();
-			}
+			lock.unlock();
 		}
 	}
 
@@ -77,16 +62,15 @@ public class AssignTokenToUser {
 	public int getTokenToServer(int timeTakesToServer) {
 		try {
 			lock.lock();
-			if(blockingQueue.isEmpty()) {
+			if (queue.isEmpty()) {
 				notFull.await();
 			}
-			notEmpty.signal();
-			return ((TaskHolder) blockingQueue.take()).getTokenNumber();
+			return ((TaskHolder) queue.poll()).getTokenNumber();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 0;
-		}finally {
+		} finally {
 			lock.unlock();
 		}
 //		ExecutorService serviceExe = Executors.newFixedThreadPool(5);

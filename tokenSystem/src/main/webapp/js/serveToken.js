@@ -1,6 +1,6 @@
 function onClickServe(){
 	var i;
-	for (i = 0; i < 20; i++) {
+	for (i = 0; i < 5; i++) {
 		service1();
 		service2();
 		service3();
