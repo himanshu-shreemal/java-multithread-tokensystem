@@ -14,27 +14,27 @@ function onClick(){
 }
 
 apicall1 = () => {
-	let data = promise("http://localhost:19090/test1") // Call the fetch function passing the url of the API as a parameter
+	let data = promise("http://localhost:19090/generateToken") // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
 apicall2 = () => {
-	let data = promise("http://localhost:19090/test1") // Call the fetch function passing the url of the API as a parameter
+	let data = promise("http://localhost:19090/generateToken") // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
 apicall3 = () => {
-	let data = fetch("http://localhost:19090/test1") // Call the fetch function passing the url of the API as a parameter
+	let data = fetch("http://localhost:19090/generateToken") // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
 apicall4 = () => {
-	let data = fetch("http://localhost:19090/test1") // Call the fetch function passing the url of the API as a parameter
+	let data = fetch("http://localhost:19090/generateToken") // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
 apicall5 = () => {
-	let data = fetch("http://localhost:19090/test1") // Call the fetch function passing the url of the API as a parameter
+	let data = fetch("http://localhost:19090/generateToken") // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }

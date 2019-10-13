@@ -14,56 +14,45 @@ import techgig.brillio.tokenSystem.task.TaskHolder;
 @Service
 public class AssignTokenToUser {
 
-	static private BlockingQueue<TaskHolder> blockingQueue = new ArrayBlockingQueue<>(30000);
+	/*
+	 * Size of the queue depends on the requirement like how much time counter take
+	 * to serve the token and at what frequency we get the request for a new token
+	 */
+	static private BlockingQueue<TaskHolder> blockingQueue = new ArrayBlockingQueue<>(3000);
 
 	/*
-	 * This value will be initialized from data base but for this practical we will
-	 * store the value in-memory and in case of restart start from 0
+	 * This value can be initialized from data base but for this practical we will
+	 * store the value in-memory and in case of restart it starts from 0
 	 */
 	static AtomicInteger tokenNumber = new AtomicInteger();
-	ReentrantLock lock = new ReentrantLock();
-
-	/*
-	 * When we start using this class we start a thread to serve the tokens
-	 */
-	public AssignTokenToUser() {
-		new Thread(() -> {
-			getTheTokenAndServer();
-		}).start();
-	}
 
 	/*
 	 * This method is use to generate the token give it back to user and put in the
-	 * queue
+	 * blockingQueue
 	 */
-	public static synchronized int assignToken() throws Exception {
+	public synchronized int assignToken() {
+		int token = 0;
 		try {
-//			lock.lock();
-			int token = tokenNumber.getAndIncrement();
-			TaskHolder task = new TaskHolder(tokenNumber.get(), token * 100);
+			token = tokenNumber.getAndIncrement();
+			TaskHolder task = new TaskHolder(token);
+			
 			// add the token in the queue
 			blockingQueue.put(task);
+			
 			// uncomment the below line to see the generated values from java multithreads
 			// System.out.println(i);
+			
 			// Will also store the token with other details in database to in case of
 			// failure we will generate the token from previous values
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			// get the copy of last value from Queue
 			TaskHolder lastTask = blockingQueue.peek();
-			tokenNumber = new AtomicInteger(lastTask.getI());
+			tokenNumber = new AtomicInteger(lastTask.getTokenNumber());
 			assignToken();
-			// Try to assign at max 10 times
-//			if (lock.getHoldCount() <= 10) {
-//				throw new Exception();
-//			}
-//		} finally {
-//			while (lock.getHoldCount() >= 0) {
-//				lock.unlock();
-//			}
 		}
 		System.out.println(tokenNumber.get());
-		return tokenNumber.get();
+		return token;
 	}
 
 	/**

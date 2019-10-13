@@ -1,39 +1,20 @@
 package techgig.brillio.tokenSystem.task;
 
-public class TaskHolder{
+public class TaskHolder {
 
-	private int i, completesInSeconds;
+	private int tokenNumber;
 
-	public TaskHolder(int i, int completesInSeconds) {
-		this.i = i;
-		this.completesInSeconds = completesInSeconds;
+	public TaskHolder(int tokenNumber) {
+		super();
+		this.tokenNumber = tokenNumber;
 	}
 
-	public int getI() {
-		return i;
+	public int getTokenNumber() {
+		return tokenNumber;
 	}
 
-	public void setI(int i) {
-		this.i = i;
+	public void setTokenNumber(int tokenNumber) {
+		this.tokenNumber = tokenNumber;
 	}
-
-	public int getCompletesInSeconds() {
-		return completesInSeconds;
-	}
-
-	public void setCompletesInSeconds(int completesInSeconds) {
-		this.completesInSeconds = completesInSeconds;
-	}
-
-//	@Override
-//	public void run() {
-//		try {
-//			System.out.println("Executing task : " + i);
-//			Thread.sleep(completesInSeconds);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 
 }
