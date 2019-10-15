@@ -2,10 +2,13 @@ package techgig.brillio.tokenSystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import techgig.brillio.tokenSystem.service.AssignTokenToUser;
+import techgig.brillio.tokenSystem.task.TaskHolder;
 
 @RestController
 public class TokenGenerateController {
@@ -19,7 +22,12 @@ public class TokenGenerateController {
 	}
 
 	@GetMapping(path = "/getTokenToServer")
-	public int getTokenToServer(@RequestParam(defaultValue = "3") int timeTakesToServer) {
-		return assignToken.getTokenToServer(timeTakesToServer);
+	public int getTokenToServer() {
+		return assignToken.getTokenToServer();
+	}
+	
+	@PostMapping(path = "/submitTokenToServer")
+	public boolean submitTokenToServer(@RequestBody TaskHolder task) {
+		return assignToken.submitTokenToServer(task);
 	}
 }

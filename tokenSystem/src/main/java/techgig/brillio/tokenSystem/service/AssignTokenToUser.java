@@ -2,6 +2,11 @@ package techgig.brillio.tokenSystem.service;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -17,10 +22,13 @@ public class AssignTokenToUser {
 	 * Size of the queue depends on the requirement like how much time counter take
 	 * to serve the token and at what frequency we get the request for a new token
 	 */
-	Queue<TaskHolder> queue = new LinkedList<TaskHolder>();
+	Queue<Integer> queue = new LinkedList<>();
 
 	final ReentrantLock lock = new ReentrantLock(true);
 	private final Condition notFull = lock.newCondition();
+
+	/* We are assuming that there are 5-10 counters who can submit the request */
+	ExecutorService executor = Executors.newFixedThreadPool(10);
 
 	/*
 	 * This value can be initialized from data base but for this practical we will
@@ -38,10 +46,9 @@ public class AssignTokenToUser {
 		try {
 			tokenNumber.getAndIncrement();
 			token = tokenNumber.get();
-			TaskHolder task = new TaskHolder(token);
 
 			// add the token in the queue
-			queue.add(task);
+			queue.add(tokenNumber.get());
 			notFull.signal();
 
 			// uncomment the below line to see the generated values from java multithreads
@@ -59,13 +66,13 @@ public class AssignTokenToUser {
 	 * This method will take the token from Queue and handover to Other thread to
 	 * server
 	 */
-	public int getTokenToServer(int timeTakesToServer) {
+	public int getTokenToServer() {
 		try {
 			lock.lock();
 			if (queue.isEmpty()) {
 				notFull.await();
 			}
-			return ((TaskHolder) queue.poll()).getTokenNumber();
+			return queue.poll();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,24 +80,33 @@ public class AssignTokenToUser {
 		} finally {
 			lock.unlock();
 		}
-//		ExecutorService serviceExe = Executors.newFixedThreadPool(5);
-//		int tokenNumber = 0;
-//		serviceExe.submit(new Callable<Integer>() {
-//
-//			@Override
-//			public Integer call() throws Exception {
-//				try {
-//					TaskHolder taskFromQueue = blockingQueue.take();
-//					tokenNumber = taskFromQueue.getTokenNumber();
-//					System.out.println("Currently Serving token number :" + tokenNumber);
-//				} catch (InterruptedException e) { // TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				return tokenNumber;
-//			}
-//		});
-//
-//		return 0;
 	}
 
+	public boolean submitTokenToServer(TaskHolder taskHolder) {
+		try {
+			TaskHolder task = new TaskHolder();
+			task.setTimeTakeToServer(taskHolder.getTimeTakeToServer());
+			task.setTokenNumber(taskHolder.getTokenNumber());
+
+			Callable<Boolean> callableTaskToSubmit = createThreadInstance(task);
+			Future<Boolean> future = executor.submit(callableTaskToSubmit);
+
+			return (boolean) future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public Callable<Boolean> createThreadInstance(TaskHolder task) {
+		return new Callable<Boolean>() {
+			@Override
+			public Boolean call() throws Exception {
+				Thread.sleep(task.getTimeTakeToServer());
+				return true;
+			}
+		};
+
+	}
 }
