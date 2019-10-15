@@ -26,30 +26,35 @@ getTokenAPICall = (tokenNumber,timeTakesToServer) => {
 start1 = () => {
 	var theDiv = document.getElementById("start1");
 	theDiv.innerHTML = "Processing...";
-	let a = getTokenAPICall();
+	var tokenNumber = document.getElementById("service1").innerHTML.split(/[, ]+/).pop();
+	let a = getTokenAPICall(tokenNumber , "3");
 	a.then(data => theDiv.innerHTML ="Success");
 }
 start2 = () => {
 	var theDiv = document.getElementById("start2");
 	theDiv.innerHTML = "Processing...";
-	let a = getTokenAPICall();
+	var tokenNumber = document.getElementById("service2").innerHTML.split(/[, ]+/).pop();
+	let a = getTokenAPICall(tokenNumber , "5");
 	a.then(data => theDiv.innerHTML ="Success");
 }
 start3 = () => {
 	var theDiv = document.getElementById("start3");
 	theDiv.innerHTML = "Processing...";
-	let a = getTokenAPICall();
+	var tokenNumber = document.getElementById("service3").innerHTML.split(/[, ]+/).pop();
+	let a = getTokenAPICall(tokenNumber , "4");
 	a.then(data => theDiv.innerHTML ="Success");
 }
 start4 = () => {
 	var theDiv = document.getElementById("start4");
 	theDiv.innerHTML = "Processing...";
-	let a = getTokenAPICall();
+	var tokenNumber = document.getElementById("service4").innerHTML.split(/[, ]+/).pop();
+	let a = getTokenAPICall(tokenNumber , "2");
 	a.then(data => theDiv.innerHTML ="Success");
 }
 start5 = () => {
 	var theDiv = document.getElementById("start5");
 	theDiv.innerHTML = "Processing...";
-	let a = getTokenAPICall();
+	var tokenNumber = document.getElementById("service5").innerHTML.split(/[, ]+/).pop();
+	let a = getTokenAPICall(tokenNumber , "7");
 	a.then(data => theDiv.innerHTML ="Success");
 }
