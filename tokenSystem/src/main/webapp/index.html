@@ -11,11 +11,12 @@
 <body>
 <h1>Welcome to counter management</h1>
 <button class="primary-btn"onclick="onClick()">Generate Token</button><label> ==> This will generate 45 token and act like multithread environment</label> </br>
-<button onclick="counter1()">Counter 1</button> <span id="counter1"  ></span></br>
-<button onclick="counter2()">Counter 2</button><span id="counter2"  ></span></br>
-<button onclick="counter3()">Counter 3</button><span id="counter3" ></span></br>
-<button onclick="counter4()">Counter 4</button><span id="counter4" ></span></br>
-<button onclick="counter5()">Counter 5</button><span id="counter5" ></span></br>
+<div style="display: inline;margin-right: 32px;">Counter</div><div style="display: inline;"></div> Is premium</div></br>
+<button onclick="counter1()">Counter 1</button> <input type="checkbox" id="counter1_chk" value=false><span id="counter1"></span></br>
+<button onclick="counter2()">Counter 2</button> <input type="checkbox" id="counter2_chk" value=false><span id="counter2"></span></br>
+<button onclick="counter3()">Counter 3</button> <input type="checkbox" id="counter3_chk" value=false><span id="counter3"></span></br>
+<button onclick="counter4()">Counter 4</button> <input type="checkbox" id="counter4_chk" value=false><span id="counter4"></span></br>
+<button onclick="counter5()">Counter 5</button> <input type="checkbox" id="counter5_chk" value=false><span id="counter5"></span></br>
 
 <h1>Start serving to Token holders</h1>
 <button class="primary-btn"onclick="onClickServe()">Serve to all Token</button><label> ==> This will server one token per counter and act like multithread environment</label> </br>	
@@ -26,8 +27,10 @@
 <button onclick="service3()">Service Counter 3</button><span id="service3" ></span></br>
 <button onclick="start3()">Start 3</button> <span id="start3"  ></span></br>
 <button onclick="service4()">Service Counter 4</button><span id="service4" ></span></br>
-<button onclick="start4()">Start 4</button> <span id="start4"  ></span></br>
-<button onclick="service5()">Service Counter 5</button><span id="service5" ></span></br>
-<button onclick="start5()">Start 51</button> <span id="start5"  ></span></br>
+<button onclick="start4()">Start 4</button> <span id="start4"  ></span></br></br></br>
+<button onclick="service_p1()">Premium Counter 1</button><span id="service_p1" ></span></br>
+<button onclick="start_p1()">Start p1</button> <span id="start_p1"  ></span></br>
+<button onclick="service_p2()">Premium Counter 2</button><span id="service_p2" ></span></br>
+<button onclick="start_p2()">Start p2</button> <span id="start_p2"  ></span></br>
 </body>
 </html>

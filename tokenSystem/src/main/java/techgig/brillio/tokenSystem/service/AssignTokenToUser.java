@@ -23,6 +23,8 @@ public class AssignTokenToUser {
 	 * to serve the token and at what frequency we get the request for a new token
 	 */
 	Queue<Integer> queue = new LinkedList<>();
+	
+	Queue<Integer> premium_queue = new LinkedList<>();
 
 	final ReentrantLock lock = new ReentrantLock(true);
 	private final Condition notFull = lock.newCondition();
@@ -35,21 +37,31 @@ public class AssignTokenToUser {
 	 * store the value in-memory and in case of restart it starts from 0
 	 */
 	static AtomicInteger tokenNumber = new AtomicInteger();
+	static AtomicInteger premium_tokenNumber = new AtomicInteger();
 
 	/*
 	 * This method is use to generate the token give it back to user and put in the
 	 * blockingQueue
 	 */
-	public int assignToken() {
+	public int assignToken(boolean isPremium) {
 		lock.lock();
 		int token = 0;
 		try {
-			tokenNumber.getAndIncrement();
-			token = tokenNumber.get();
+			if(isPremium) {
+				premium_tokenNumber.getAndIncrement();
+				token = premium_tokenNumber.get();
 
-			// add the token in the queue
-			queue.add(tokenNumber.get());
-			notFull.signal();
+				// add the token in the queue
+				premium_queue.add(premium_tokenNumber.get());
+				notFull.signal();
+			}else {
+				tokenNumber.getAndIncrement();
+				token = tokenNumber.get();
+
+				// add the token in the queue
+				queue.add(tokenNumber.get());
+				notFull.signal();
+			}
 
 			// uncomment the below line to see the generated values from java multithreads
 			// System.out.println(i);

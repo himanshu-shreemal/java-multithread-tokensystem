@@ -36,7 +36,7 @@ public class TestMulitiThreadEnvironment {
 		Future<Integer> future = null;
 		for (int i = 0; i < 100; i++) {
 			Callable<Integer> task = () -> {
-				 return  assignTokenToUser.assignToken();
+				 return  assignTokenToUser.assignToken(false);
 			};
 			future = exe.submit(task);
 		}

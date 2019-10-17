@@ -13,53 +13,78 @@ function onClick(){
 	}
 }
 
-apicall1 = () => {
-	let data = fetch("http://localhost:19090/generateToken") // Call the fetch function passing the url of the API as a parameter
+apicall1 = (isChecked) => {
+	let data = fetch("http://localhost:19090/generateToken?isChecked="+isChecked) // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
-apicall2 = () => {
-	let data = fetch("http://localhost:19090/generateToken") // Call the fetch function passing the url of the API as a parameter
+apicall2 = (isChecked) => {
+	let data = fetch("http://localhost:19090/generateToken?isChecked="+isChecked) // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
-apicall3 = () => {
-	let data = fetch("http://localhost:19090/generateToken") // Call the fetch function passing the url of the API as a parameter
+apicall3 = (isChecked) => {
+	let data = fetch("http://localhost:19090/generateToken?isChecked="+isChecked) // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
-apicall4 = () => {
-	let data = fetch("http://localhost:19090/generateToken") // Call the fetch function passing the url of the API as a parameter
+apicall4 = (isChecked) => {
+	let data = fetch("http://localhost:19090/generateToken?isChecked="+isChecked) // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
-apicall5 = () => {
-	let data = fetch("http://localhost:19090/generateToken") // Call the fetch function passing the url of the API as a parameter
+apicall5 = (isChecked) => {
+	let data = fetch("http://localhost:19090/generateToken?isChecked="+isChecked) // Call the fetch function passing the url of the API as a parameter
 	.then(response => response.json())
 	return data;
 }
 counter1 = () => {
 	var theDiv = document.getElementById("counter1");
-	let a = apicall1();
-	a.then(data => theDiv.innerHTML += ','+ data);
+	var isChecked = document.getElementById("counter1_chk").checked;
+	let a = apicall1(isChecked);
+	if(isChecked){
+		a.then(data => theDiv.innerHTML += ','+"<span style='color: red;'>"+data+"</span>");
+	}else{
+		a.then(data => theDiv.innerHTML += ','+ data);
+	}
 }
 counter2 = () => {
 	var theDiv = document.getElementById("counter2");
-	let a = apicall2();
-	a.then(data => theDiv.innerHTML += ','+ data);
+	var isChecked = document.getElementById("counter2_chk").checked;
+	let a = apicall2(isChecked);
+	if(isChecked){
+		a.then(data => theDiv.innerHTML += ','+"<span style='color: red;'>"+data+"</span>");
+	}else{
+		a.then(data => theDiv.innerHTML += ','+ data);
+	}
 }
 counter3 = () => {
 	var theDiv = document.getElementById("counter3");
-	let a = apicall3();
-	a.then(data => theDiv.innerHTML += ','+ data);
+	var isChecked = document.getElementById("counter3_chk").checked;
+	let a = apicall3(isChecked);
+	if(isChecked){
+		a.then(data => theDiv.innerHTML += ','+"<span style='color: red;'>"+data+"</span>");
+	}else{
+		a.then(data => theDiv.innerHTML += ','+ data);
+	}
 }
 counter4 = () => {
 	var theDiv = document.getElementById("counter4");
-	let a = apicall4();
-	a.then(data => theDiv.innerHTML += ','+ data);
+	var isChecked = document.getElementById("counter4_chk").checked;
+	let a = apicall4(isChecked);
+	if(isChecked){
+		a.then(data => theDiv.innerHTML += ','+"<span style='color: red;'>"+data+"</span>");
+	}else{
+		a.then(data => theDiv.innerHTML += ','+ data);
+	}
 }
 counter5 = () => {
 	var theDiv = document.getElementById("counter5");
-	let a = apicall5();
-	a.then(data => theDiv.innerHTML += ','+ data);
+	var isChecked = document.getElementById("counter5_chk").checked;
+	let a = apicall5(isChecked);
+	if(isChecked){
+		a.then(data => theDiv.innerHTML += ','+"<span style='color: red;'>"+data+"</span>");
+	}else{
+		a.then(data => theDiv.innerHTML += ','+ data);
+	}
 }
